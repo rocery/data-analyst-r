@@ -1,0 +1,116 @@
+*Missing Value in R*
+NA juga memiliki konstanta yang digunakan untuk beradaptasi, yaitu:
+    NA_integer_ untuk representasi tipe data "integer"
+    NA_real_ untuk representasi tipe data "double"
+    NA_complex_ untuk representasi tipe data "complex"
+    NA_character_ untuk representasi tipe data "character"
+
+Missing Value = NA
+Missing Object = NULL
+
+Pada vektor (c) NULL tidak terbaca atau 0 saat menggunakan fungsi length()
+Sedangkan pada list (list) NULL akan terbaca apa adanya
+
+Inf adalah singkatan dari infinite number atau representasi angka tidak terhingga.
+Semua pembagian angka bukan nol dengan nol adalah angka tidak terbatas, misalkan 1/0 atau -20/0.
+
+NaN adalah representasi khusus untuk angka. Singkatan dari Not a Number, ini adalah representasi operasi matematika 
+yang tidak bisa diwakili oleh angka apapun. Sering sekali bisa dianggap missing value tapi untuk hasil perhitungan.
+Contoh 0/0, log(bilangan negatif)
+
+NaN merupakan missing value
+NA belum berarti NaN
+is.na(NaN) -> TRUE
+is.nan(NA) -> FALSE
+
+sum(is.na( variable_vector ) == TRUE) -> Menghitung jumlah missing value dari sebuah vector
+
+
+*Factor*
+Nilai dari factor tidak mengalami perulangan, contoh:
+factor(c("Jan","Feb","Mar","Jan","Mar","Jan")) -> output -> Levels: Feb Jan Mar
+Factor disimpan dalam bentuk index integer 1, 2, 3 etc, levels merupakan atributnya
+Untuk melihat index pada faktor dapat menggunakan fungsi as.integer(variable_vector)
+
+// Mengganti isi factor
+#Mengganti levels 
+levels(factor.bulan)[2] <- "Januari"
+levels(factor.bulan)[3] <- "Maret"
+
+Ketika angka dimasukan kedalam factor akan dikonversi ke teks
+Na dan NaN akan menjadi bagian dari isi factor, NULL akan dihilangkan
+Hanya NaN yang akan dikenali sebagai levels
+
+// Merubah urutan factor
+factor(c(), levels = c()), contoh:
+factor(c("Jan","Feb","Mar","Jan","Mar"), levels = c("Jan", "Feb", "Mar"))
+
+
+*Reading from Text and Excel File*
+read.csv("datakependudukandki-dqlab.csv", sep = ",")
+read.csv("datakependudukandki-dqlab.csv", sep = ",", check.names = FALSE) -> Supaya nama kolom tidak otomatis diperbaiki
+penduduk.dki <- read.csv("dkikepadatankelurahan2013.tsv", sep = "\t") -> Membaca file TSV
+library(openxlsx)
+penduduk.dki.xlsx <- read.xlsx(xlsxFile = "dkikepadatankelurahan2013.xlsx") -> Membaca xlsx
+
+Str akan menyajikan informasi tiap kolom dataset dalam format yang compact – satu baris informasi saja per row. 
+Pendekatan singkat dan jelas ini membuat str menjadi function favorit dan efektif untuk mengenal data di tahap awal.
+str(nama_variabel_data)
+
+Profile dataset
+str(nama_variabel_data)
+summary(nama_variabel_data)
+
+# Melihat nama kolom
+names(penduduk.dki.csv)
+
+Perbedaan read.xlsx dan read.csv
+1. Karakter non karakter dan spasi seperti garis miring dan tanda kurung tetap ditampilkan apa adanya. 
+   Sedangkan jika menggunakan read.csv dan read.tsv akan diganti menjadi tanda titik.
+2. Seluruh kolom akan diubah menjadi vector, sedangkan pada read.csv beberapa kolom akan menjadi factor.
+3. Vector teks yang berulang akan tetap dibiarkan apa adanya, tidak diubah menjadi factor. Ini akan 
+   mengakibatkan beberapa masalah, salah satunya adalah pada saat plotting data – yang akan kita lihat pada praktek berikutnya.
+4. Kolom kosong – dimana jika kita gunakan read.csv akan diisi dengan nama X, X.1, X.2, dan seterusnya – dihilangkan oleh fungsi read.xlsx ini.
+
+//Membuang beberapa kolom
+penduduk.dki.csv <- penduduk.dki.csv[,!names(penduduk.dki.csv) %in% c("X", "X.1","X.2","X.3","X.4","X.5","X.6","X.7","X.8","X.9","X.10")]
+[ , …]  Artinya data frame mengambil kolom ke …
+!       Tanda bukan atau not
+names(penduduk.dki.csv)     Daftar dari semua kolom dari variable penduduk.dki.csv
+%in%    Operator untuk mengambil data dari vector setelahnya
+c("X","X.1","X.2","X.3","X.4","X.5","X.6","X.7","X.8","X.9","X.10")     Vector dari nama semua kolom yang akan dibuang
+
+data.frame$namakolom <- as.factor(data.frame$namakolom) -> Merubah tipe kolom menjadi factor
+
+melt 
+    Function untuk melakukan transformasi dari kolom ke baris
+data=penduduk.dki.xlsx
+    Argumen data yang diisi dengan variable penduduk.dki.xlsx, yaitu data frame hasil pembacaan dari file Excel data kependudukan DKI
+id.vars= c( "NAMA.KECAMATAN", "NAMA.KELURAHAN")
+    Vector dari field-field kolom yang akan menjadi identitas – dimana field tidak akan mengalami transformasi tapi tetap diambil
+measure.vars = c("35-39.Laki-Laki", "35-39.Perempuan")  
+    Nama variable hasil transformasi
+variable.name= "DEMOGRAFIK"     
+    Nama variable untuk menampung nama kolom transformasi
+value.name= "JUMLAH"    
+    Nama variable untuk menampung isi data dari kolom transformasi
+
+#Memecah isi kolom DEMOGRAFIK menjadi "RENTANG.UMUR" dan "JENIS.KELAMIN"
+penduduk.dki.transform[c("RENTANG.UMUR", "JENIS.KELAMIN")] <- 
+    colsplit(penduduk.dki.transform$DEMOGRAFIK,"\\.",c("RENTANG.UMUR","JENIS.KELAMIN"))
+penduduk.dki.transform$DEMOGRAFIK <- NULL
+
+colsplit
+Function untuk memecah satu variable menjadi beberapa variable
+penduduk.dki.transform$DEMOGRAFIK
+Artinya data frame mengambil kolom ke …
+"\\."
+Karakter pemisah, dalam hal ini tanda titik (.). Khusus untuk tanda titik harus diisi dengan didahului backslash dua kali
+c("RENTANG.UMUR", "JENIS.KELAMIN")
+Vector yang berisi nama-nama variable baru hasil pemecahan variable
+penduduk.dki.transform
+Artinya data frame mengambil kolom ke …
+[…]
+Simbol karakter untuk index
+c("RENTANG.UMUR", "JENIS.KELAMIN")
+Vector yang berisi nama-nama variable baru
