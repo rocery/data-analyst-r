@@ -63,6 +63,10 @@ test, student-t test, f-test, z-score test.
 Hipotesis nihil (null): tidak ada hubungan antara kedua variabel.
 Hipotesis alternatif: ada hubungan antara kedua variabel.
 
+Untuk menguji hubungan variabel numerik dengan kategorik menggunakan t-test
+Untuk menguji hubungan variabel kategorik dengan kategorik menggunakan chi-square test
+Untuk menguji hubungan variabel numerik dengan numerik menggunakan cor.test
+
 
 
 

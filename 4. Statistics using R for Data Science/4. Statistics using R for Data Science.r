@@ -64,3 +64,22 @@ hist(data_intro$Harga)
 hist(data_intro$Jumlah)
 hist(data_intro$Total)
 plot(data_intro$Tingkat.Kepuasan)
+
+# Analisis Data Sederhana
+# Mencari korelasi menggunakan scatter plot
+plot(data_intro$Pendapatan,data_intro$Total)
+# Mencari korelasi menggunakan fungsi cor.test() - Numerik dan numerik
+cor.test(data_intro$Pendapatan, data_intro$Total)
+
+# Numerik dan Numerik (Kategorik) chi-square
+## Carilah tabulasi silang antara kolom jenis produk (Produk) dan tingkat kepuasan (Tingkat.Kepuasan) dari variable data_intro
+table(data_intro$Produk, data_intro$Tingkat.Kepuasan)
+## Analisis bagaimana hubungan jenis produk dengan tingkat kepuasan mengunakan uji korelasi
+chisq.test(table(data_intro$Produk, data_intro$Tingkat.Kepuasan))
+
+
+# Hubungan variabel Kategorik dan numerik t.test
+## carilah boxplot antara variabel jenis kelamin dengan total belanja
+boxplot(Total~Jenis.Kelamin, data = data_intro)
+## analisis bagaimana hubungan jenis kelamin dengan total belanja mengunakan uji statistik t-test
+t.test(Total~Jenis.Kelamin, data = data_intro)

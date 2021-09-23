@@ -1,0 +1,60 @@
+*Dasar "Kanvas" untuk Grafik*
+Plot adalah komponen paling dasar di ggplot2, tanpa plot seluruh grafik tidak akan bisa ditampilkan. 
+Dengan demikian, plot dapat dianalogikan sebagai "kanvas" gambar kita. Plot dibuat dengan function ggplot()
+
+ggplot(data = df) + labs(title = "Luas Wilayah vs Kepadatan Penduduk DKI Jakarta - Periode 2013",
+x = "Label X", y = "Label Y")
+
+ggplot()    = Membuat kanvas
+    data    = Dataframe yang akan digunakan
++           = Operator untuk menambah komponen kedalam plot
+labs()      = Fungsi menambahkan label text kedalam plot
+    title   = Parameter judul
+    x       = Parameter label X
+    y       = Parameter label Y
+"...."      = Nilai teks untuk judul, x, y, dll
+
+
+*Data dan Aesthetic Mapping*
+plot.dki <- ggplot(data = penduduk.dki, aes(x = LUAS.WILAYAH..KM2., y = KEPADATAN..JIWA.KM2., color = NAMA.KABUPATEN.KOTA))
+
+aes         = Fungsi untuk memetakan elemen-elemen visual dengan nilai atau variabel
+    x       = Data pada sumbu x
+    y       = Data pada sumbu y
+    color   = Data yang akan dijadikan warna
+
+
+*Layer untuk Grafik Pertama: Scatter Plot*
+Geom: Bentuk geometri seperti garis (line), batang (bar), titik (point), dan lain-lain.
+Stat: Atau suatu fungsi untuk melakukan transformasi statistik terhadap data input.
+Position: Posisi dari beberapa data yang memiliki nilai yang sama.
+
+layer(geom = "…", stat = "…", position = "…")
+
+layer       = Fungsi membentuk layer untuk ditambahkan ke plot
+    geom    = Bentuk geometri yang digunakan untuk layer
+              point, scatter plot
+              line, diagram garis
+              hline, diagram garis horizontal
+              bar, diagram batang
+              histogram, histogram. DLL
+    stat    = Jenis transformasi data untuk merubah data ke bentuk lain
+              identity, tidak melakukan transformasi
+              bin, membagi data menjadi interval
+              sum, menjumlahkan nilai-nilai yang unik
+              summary, melakukan fungsi summary dari semua nilai y untuk setiap titik x
+    position= Perubahan posisi terhadap tiap titik yang terdapat pada layer
+              identity, tidak ada perubahan posisi
+              jitter, merubah posisi dengan jarak acara tertentu, digunakan jika terdapat data overlapping
+              stack, menyusun posisi dalam bentuk tumpukan, DLL
+
+theme(plot.title = element_text(hjust=0.5)) -> Menempatkan posisi title ditengah plot
+
+
+*Histogram*
+Histogram adalah tipe visualisasi yang sangat cocok untuk menggambarkan data distribusi dari jumlah populasi data.
+Untuk membuat histogram, kita gunakan geom = "histogram" dan stat = "bin", yang bisa diwakili oleh function geom_histogram.
+
+geom_histogram(binwidth=5000)
+binwidth    = Lebar dari masing-masing blok histogram
+geom_histogram() == layer(geom = "histogram", stat = "bin", position = "identity")
