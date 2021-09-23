@@ -1,0 +1,68 @@
+*Variabel unik (id, nama, address, dll) harus diubah menjadi tipe character -> as.character(df$kolom)
+*Data kualitatif (jenis kelamin, tipe produk, tingkat kepuasan, dll) harus diubah menjadi factor -> as.factor(df$kolom)
+
+// Estimasi Karakteristik
+Modus adalah nilai yang sering muncul dari suatu distribusi (data nominal-data ordinal).
+Median adalah nilai tengah dari suatu distribusi (data interval dan rasio).
+Mean adalah rata-rata aritmatik dari suatu distribusi (data interval dan rasio).
+    Penggunaan mean sebaiknya digunakan jika tidak ada outlier
+    Jika ada outlier sebaiknya gunakan Median
+
+// Ukuran Sebaran Data
+Range adalah selisih antara nilai terbesar dan nilai terendah -> max(df$kolom) - min(df$kolom)
+Varians adalah simpangan kuadrat data dari nilai rata-ratanya
+Simpangan baku adalah simpangan data dari nilai rata-ratanya, simpangan baku nama lainnya adalah standard deviation. 
+    Standard deviation dapat digunakan untuk melihat keakuratan dari hasil estimasi, 
+    semakin kecil standard deviation semakin akurat hasil estimasi.
+
+
+*Analisis Deskriptif pada variable data_intro*
+Analisis Deskriptif adalah proses analisa yang digunakan untuk membangun sebuah hipotesis.
+
+Minimum adalah nilai observasi terkecil.
+Kuartil pertama (Q1), yang memotong 25 % dari data terendah.
+Median (Q2) atau nilai pertengahan.
+Kuartil ketiga (Q3), yang memotong 25 % dari data tertinggi.
+Maksimum adalah nilai observasi terbesar.
+    summary(df)
+
+// Visualisasi
+plot digunakan untuk variabel bertipe Factor - function ini menghasilkan grafik Bar Plot.
+hist untuk variabel bertipe numerik seperti int - function ini menghasilkan grafik Histogram.
+
+
+*Analisis Data Sederhana*
+    Uji hipotesis adalah metode pengambilan keputusan yang didasarkan dari analisis data. Dalam statistik dapat 
+menguji sebuah hipotesis benar atau salah. Ada 2 jenis hipotesis yaitu hipotesis null (hipotesis nihil) dan 
+hipotesis alternatif. Hipotesis nihil (Ho) yaitu hipotesis yang berlawanan dengan teori yang akan dibuktikan. 
+Hipotesis alternatif (Ha) adalah hipotesis yang berhubungan dengan teori yang akan dibuktikan.
+
+    Dalam melakukan pengujian statistik kita perlu menggunakan metode statistik uji, yang sering digunakan yaitu 
+z-test, t-test, chi-square test, dan f-test. Pada bab kali ini kita tidak akan membahas detail dari setiap 
+statistik uji diatas, tetapi kita akan fokus cara menggunakannya.
+
+Selanjutnya kita harus paham mengenai p-value dan alpha yang akan digunakan dalam statistik uji.
+
+    P-value adalah peluang terkecil dalam menolak Ho. Sedangkan alpha adalah tingkat kesalahan. 
+Nilai alpha biasanya adalah 1%, 5%, dan 10%. Dalam prakteknya alpha 5% sering digunakan, karena lebih moderat.
+
+    Hipotesis H0 ditolak jika nilai p-value kurang dari alpha (5%), sedangkan jika p-value lebih dari nilai alpha 
+maka yang H0 diterima. Untuk lebih jelasnya dapat dilihat gambar dibawah ini
+
+// Statistik Deskriptif dan Statistik Inferensia
+Statistik Deskriptif adalah statistik yang digunakan untuk analisa data dengan cara menggambarkan data sampel 
+dengan tanpa membuat kesimpulan untuk data populasi. Beberapa hal yang dapat dilakukan adalah penyajian data 
+melalui tabel, grafik, perhitungan modus, median, mean, perhitungan penyebaran data melalui perhitungan rata-rata 
+dan standar deviasi. Statistik Deskriptif digunakan untuk eksplorasi data.
+
+Statistik Inferensia adalah yaitu statistik yang digunakan untuk menganalisis data sampel dan hasilnya diberlakukan 
+untuk populasi. Beberapa hal yang dapat dilakukan adalah menguji hipotesis dengan statistik uji, seperti chi-square 
+test, student-t test, f-test, z-score test.
+
+// Hubungan antara variabel numerik
+Hipotesis nihil (null): tidak ada hubungan antara kedua variabel.
+Hipotesis alternatif: ada hubungan antara kedua variabel.
+
+
+
+
