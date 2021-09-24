@@ -39,6 +39,22 @@ plot.dki + geom_point() +
 
 
 # -----------------Histogram-------------------
-#Menambahkan data dan aesthetic mapping
+# Menambahkan data dan aesthetic mapping
 plot.dki <- ggplot(data = penduduk.dki, aes(x = KEPADATAN..JIWA.KM2.))
+# Menambahkan fill
+plot.dki <- ggplot(data=penduduk.dki, aes(x = KEPADATAN..JIWA.KM2., fill = NAMA.KABUPATEN.KOTA))
 plot.dki + geom_histogram(binwidth = 5000)
+
+
+# -------------Visualisasi Trend dengan Line Chart----------
+#Membaca data csv dan dimasukkan ke variable inflasi.indo.sing
+inflasi.indo.sing <- read.csv("inflasi.csv", sep = ",")
+# Memperbaiki Urutan Bulan dengan Factoring supaya berurutan Jan-Des
+inflasi.indo.sing$Bulan <- factor(inflasi.indo.sing$Bulan,
+ levels = c("Jan-2017", "Feb-2017", "Mar-2017", "Apr-2017", "May-2017",
+ "Jun-2017", "Jul-2017", "Aug-2017", "Sep-2017", "Oct-2017"))
+#Menambahkan data dan aesthetic mapping
+plot.inflasi <- ggplot(data = inflasi.indo.sing, aes(x = Bulan,
+ y = Inflasi, color = Negara, group = Negara))
+# Menambahkan layer
+plot.inflasi + geom_line() + geom_text(aes(label=Inflasi),hjust=-0.2, vjust=-0.5)

@@ -17,12 +17,13 @@ labs()      = Fungsi menambahkan label text kedalam plot
 
 *Data dan Aesthetic Mapping*
 plot.dki <- ggplot(data = penduduk.dki, aes(x = LUAS.WILAYAH..KM2., y = KEPADATAN..JIWA.KM2., color = NAMA.KABUPATEN.KOTA))
-
+fill = NAMA.KABUPATEN.KOTA, group = Negara
 aes         = Fungsi untuk memetakan elemen-elemen visual dengan nilai atau variabel
     x       = Data pada sumbu x
     y       = Data pada sumbu y
-    color   = Data yang akan dijadikan warna
-
+    color   = Data yang akan dijadikan warna (sisi luar)
+    fill    = Data yang akan dijadikan warna (sisi luar + dalam)
+    group   = Data yang akan dipisahkan -> bisa digunakan pada line chart
 
 *Layer untuk Grafik Pertama: Scatter Plot*
 Geom: Bentuk geometri seperti garis (line), batang (bar), titik (point), dan lain-lain.
@@ -58,3 +59,23 @@ Untuk membuat histogram, kita gunakan geom = "histogram" dan stat = "bin", yang 
 geom_histogram(binwidth=5000)
 binwidth    = Lebar dari masing-masing blok histogram
 geom_histogram() == layer(geom = "histogram", stat = "bin", position = "identity")
+
+
+*Visualisasi Trend dengan Line Chart*
+Line chart atau grafik garis adalah tipe visualisasi yang sangat baik untuk menggambarkan apa impact (pengaruh) 
+dari perubahan suatu variable dari satu titik ke titik lain atau trend– dan variable yang paling umum digunakan adalah waktu.
+
+geom_line() == layer(geom = "line", stat = "identity", position = "identity")
+
+Pada line chart terkadang perlu grouping pada aes, contoh :
+plot.inflasi <- ggplot(data = inflasi.indo.sing, aes(x = Bulan, y = Inflasi, color = Negara, group = Negara))
+
++ geom_text(aes(label=Inflasi), hjust = -0.2, vjust = -0.5)
+geom_tex()  = Menambahkan label pada titik grafik
+    lebel   = Teks yang akan dimuat
+    hjust   = Posisi horizontal dari label
+    vjust   = Posisi vertikal dari label
+
+
+*Bar Chart dan Pie Chart*
+
