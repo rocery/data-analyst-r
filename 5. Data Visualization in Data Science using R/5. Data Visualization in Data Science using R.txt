@@ -48,6 +48,7 @@ layer       = Fungsi membentuk layer untuk ditambahkan ke plot
               identity, tidak ada perubahan posisi
               jitter, merubah posisi dengan jarak acara tertentu, digunakan jika terdapat data overlapping
               stack, menyusun posisi dalam bentuk tumpukan, DLL
+              dodge, menyusun posisi bersampingan
 
 theme(plot.title = element_text(hjust=0.5)) -> Menempatkan posisi title ditengah plot
 
@@ -78,4 +79,53 @@ geom_tex()  = Menambahkan label pada titik grafik
 
 
 *Bar Chart dan Pie Chart*
+Bar chart atau grafik batang adalah salah satu tipe visualisasi yang sudah umum digunakan yang sangat 
+baik untuk melakukan perbandingan data multi kategori. Sedangkan pie chart sangat berguna untuk melihat rasio.
+
+geom_bar() == layer(geom = "bar", stat = "count", position = "identity") -> Bar Chart
+Secara default, stat yang digunakan oleh geom_bar adalah count sehingga bar chart hanya akan 
+menghitung jumlah baris data point per x, dan tidak membutuhkan aesthetic mapping y.
+
+Jika dibutuhkan dua data pada bar chart, paka perlu ditambahkan stat = "identity" pada geom_bar()
+plot.dki <- ggplot(data=penduduk.dki, aes(x = NAMA.KABUPATEN.KOTA, y = JUMLAH))
++ geom_bar(stat = "identity")
+
+// Fungsi Aggregate
+aggregate(x = list(RATARATA=penduduk.dki$JUMLAH), FUN = mean,
+ by = list(NAMA.KABUPATEN.KOTA = penduduk.dki$NAMA.KABUPATEN.KOTA, JENIS.KELAMIN = penduduk.dki$JENIS.KELAMIN))
+x: merupakan list dari kolom data yang ingin kita jadikan summary
+FUN: function summary yang bisa kita gunakan, misalkan sum, mean, dan lain-lain
+by: list berisi pasangan daftar field yang ingin kita gunakan
+
+#Melakukan agregasi
+p <- aggregate(x=list(JUMLAH=penduduk.dki$JUMLAH), FUN=sum, 
+ by = list(NAMA.KABUPATEN.KOTA=penduduk.dki$NAMA.KABUPATEN.KOTA, JENIS.KELAMIN=penduduk.dki$JENIS.KELAMIN))
+#Plot grafik
+plot.dki <- ggplot(data=p, aes(x = NAMA.KABUPATEN.KOTA, y=JUMLAH, fill=JENIS.KELAMIN, label = JUMLAH))
+plot.dki <- plot.dki + geom_bar(stat="identity", position="dodge")  
+plot.dki <- plot.dki + labs(title="Jumlah Penduduk DKI Jakarta Umur > 35 - Tahun 2013", x="Kabupaten / Kota", y="Jumlah Penduduk")
+plot.dki <- plot.dki + theme(axis.text.x = element_text(angle=45,vjust = 0.5), plot.title = element_text(hjust=0.5))
+plot.dki <- plot.dki + geom_text(position = position_dodge(1.2))
+plot.dki
+
+theme()     = Function untuk mengatur teks pada grafik
+    element_text(angle=45,vjust = 0.5)) = Melakukan rotasi text data (axis.text.x) sebesar 45 derajat ke kiri (angle=45), 
+              dan penempatan teks secara vertical di tengah-tengah (vjust=0.5).
+    plot.title = element_text(hjust=0.5) = Mengatur posisi teks pada title ke tengah
+geom_text(position = position_dodge(1.2)) = Mengatur posisi text untuk nilai data saat ini di atas bar plot
+
+
+
+*Membagi Grafik dengan Faceting*
+Terdapat dua fungsi facet, yaitu facet_wrap() dan facet_grid() untuk 
+membagi subset menjadi layout kotak matrix seperti pada contoh di teks pengenalan
+
+Functiono facet_grid memerlukan dua variable, misalkan provinsi dan kabupaten untuk membagi dataset. 
+Sedangkan function facet_wrap hanya memerlukan satu variable, dataset dibagi berdasarkan jumlah kolom yang diinginkan.
+
++ facet_wrap( ~ NAMA.KABUPATEN.KOTA, ncol=2)
+facet_wrap  = Fungsi faceting pada ggplot2
+~ NAMA.KABUPATEN.KOTA = Facet wrap hanya menggunakan satu variable saja. 
+        Dan variable yang digunakan diletakkan di sebelah kanan tanda ~.
+ncol=2  == Jumlah kolom pembagian adalah 2
 
